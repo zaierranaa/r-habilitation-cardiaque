@@ -1,0 +1,322 @@
+/* ===== RESET AND BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Courier New', monospace;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #fff;
+}
+
+/* ===== MAIN CONTAINER ===== */
+.clock-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.clock-container h1 {
+  text-align: center;
+  font-size: 3em;
+  margin-bottom: 10px;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.8s ease;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 1.1em;
+  margin-bottom: 40px;
+  opacity: 0.9;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== TIMEZONES GRID ===== */
+.timezones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+/* ===== TIMEZONE CARD ===== */
+.timezone-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.timezone-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.timezone-card.update-animation {
+  animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ===== TIMEZONE HEADER ===== */
+.tz-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.tz-emoji {
+  font-size: 2em;
+}
+
+.tz-name {
+  font-size: 1.3em;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* ===== TIME DISPLAY ===== */
+.tz-time {
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+  font-family: 'Courier New', monospace;
+  color: #00ff88;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+  line-height: 1.2;
+}
+
+/* ===== DATE DISPLAY ===== */
+.tz-date {
+  font-size: 0.95em;
+  text-align: center;
+  opacity: 0.8;
+  font-family: 'Courier New', monospace;
+  color: #a0d8ff;
+}
+
+/* ===== CONTROLS ===== */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ===== BUTTONS ===== */
+.controls button {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-format {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-format:hover {
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-update {
+  background: linear-gradient(135deg, #00c853 0%, #1de9b6 100%);
+  color: white;
+}
+
+.btn-update:hover {
+  box-shadow: 0 6px 20px rgba(0, 200, 83, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-update.btn-stopped {
+  background: linear-gradient(135deg, #f50057 0%, #d32f2f 100%);
+}
+
+.btn-update.btn-stopped:hover {
+  box-shadow: 0 6px 20px rgba(245, 0, 87, 0.4);
+}
+
+.btn-active {
+  animation: buttonClick 0.3s ease;
+}
+
+@keyframes buttonClick {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1200px) {
+  .timezones-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .clock-container h1 {
+    font-size: 2.2em;
+  }
+}
+
+@media (max-width: 768px) {
+  .timezones-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+  }
+
+  .clock-container h1 {
+    font-size: 1.8em;
+  }
+
+  .tz-time {
+    font-size: 2em;
+  }
+
+  .tz-emoji {
+    font-size: 1.5em;
+  }
+
+  .tz-name {
+    font-size: 1.1em;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .controls button {
+    width: 100%;
+    padding: 12px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  .clock-container {
+    padding: 0;
+  }
+
+  .clock-container h1 {
+    font-size: 1.5em;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 0.95em;
+    margin-bottom: 20px;
+  }
+
+  .timezones-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .timezone-card {
+    padding: 18px;
+  }
+
+  .tz-time {
+    font-size: 1.8em;
+  }
+
+  .tz-header {
+    gap: 8px;
+    margin-bottom: 15px;
+  }
+
+  .tz-emoji {
+    font-size: 1.3em;
+  }
+
+  .tz-name {
+    font-size: 1em;
+  }
+
+  .tz-date {
+    font-size: 0.85em;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .timezone-card,
+  .controls button,
+  .timezone-card.update-animation {
+    animation: none;
+    transition: background-color 0.2s, box-shadow 0.2s;
+  }
+}
+
+/* ===== DARK MODE ===== */
+@media (prefers-color-scheme: dark) {
+  .timezone-card {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .tz-time {
+    color: #00ff88;
+  }
+
+  .tz-date {
+    color: #a0d8ff;
+  }
+}
