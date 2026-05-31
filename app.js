@@ -1,118 +1,97 @@
 let role = localStorage.getItem("role");
 
-if(!role){
+if (!role) {
   window.location.href = "index.html";
 }
 
-// Données du questionnaire par profil
+// Données complètes du questionnaire avec domaines
 const data = {
   patient: [
     {
       question: "Avez-vous eu des douleurs ou des gênes thoraciques cette semaine ?",
-      domain: "Symptômes cardiovasculaires"
+      domain: "Symptômes cardiovasculaires",
+      values: ["Non", "Légères", "Modérées", "Sévères"]
     },
     {
       question: "Avez-vous ressenti un essoufflement même au repos ou la nuit ?",
-      domain: "Symptômes cardiovasculaires"
+      domain: "Symptômes cardiovasculaires",
+      values: ["Non", "Parfois", "Souvent", "Constamment"]
     },
     {
       question: "Etes-vous fatigué ou avez-vous peu d'énergie pour vos activités quotidiennes ?",
-      domain: "Bien-être et état général"
+      domain: "Bien-être et état général",
+      values: ["Non", "Peu", "Moyen", "Beaucoup"]
     },
     {
       question: "Pratiquez-vous une activité physique régulière (marche, exercices) ?",
-      domain: "Activité physique et autonomie"
+      domain: "Activité physique et autonomie",
+      values: ["Jamais", "Rarement", "Régulièrement", "Quotidiennement"]
     },
     {
       question: "Arrivez-vous à réaliser vos gestes quotidiens sans difficulté (hygiène, repas) ?",
-      domain: "Activité physique et autonomie"
-    },
-    {
-      question: "Prenez-vous régulièrement vos médicaments comme prescrit ?",
-      domain: "Adhérence thérapeutique"
-    },
-    {
-      question: "Respectez-vous les conseils diététiques (sel, liquides) ?",
-      domain: "Adhérence thérapeutique"
-    },
-    {
-      question: "Comment est votre moral et votre sommeil ?",
-      domain: "Bien-être et état général"
+      domain: "Activité physique et autonomie",
+      values: ["Non", "Avec difficulté", "Plutôt bien", "Très bien"]
     }
   ],
 
   infirmier: [
     {
       question: "Avez-vous observé des signes cliniques d'insuffisance cardiaque (œdèmes, dyspnée) ?",
-      domain: "Symptômes cardiovasculaires"
+      domain: "Symptômes cardiovasculaires",
+      values: ["Aucun", "Légers", "Modérés", "Sévères"]
     },
     {
       question: "Le patient maintient-il une activité physique adaptée à son état ?",
-      domain: "Activité physique et autonomie"
+      domain: "Activité physique et autonomie",
+      values: ["Non", "Peu", "Moyen", "Oui"]
     },
     {
       question: "Y a-t-il des signes de dépression ou d'anxiété chez le patient ?",
-      domain: "Bien-être et état général"
+      domain: "Bien-être et état général",
+      values: ["Aucun", "Légers", "Modérés", "Sévères"]
     },
     {
       question: "Le patient comprend-il et respecte-t-il son plan thérapeutique ?",
-      domain: "Adhérence thérapeutique"
+      domain: "Adhérence thérapeutique",
+      values: ["Non", "Partiellement", "Globalement", "Excellemment"]
     },
     {
       question: "Avez-vous identifié des barrières à l'adhérence thérapeutique ?",
-      domain: "Adhérence thérapeutique"
-    },
-    {
-      question: "Le patient a-t-il besoin d'un soutien psychosocial ou d'une réadaptation ?",
-      domain: "Bien-être et état général"
-    },
-    {
-      question: "Y a-t-il une bonne communication avec le patient et sa famille ?",
-      domain: "Activité physique et autonomie"
-    },
-    {
-      question: "Le suivi clinique est-il régulier et adapté aux risques identifiés ?",
-      domain: "Symptômes cardiovasculaires"
+      domain: "Adhérence thérapeutique",
+      values: ["Aucune", "Peu", "Plusieurs", "Nombreuses"]
     }
   ],
 
   famille: [
     {
       question: "Observez-vous des signes d'anxiété ou de dépression chez le patient ?",
-      domain: "Bien-être et état général"
+      domain: "Bien-être et état général",
+      values: ["Non", "Parfois", "Souvent", "Constamment"]
     },
     {
       question: "Le patient est-il capable de réaliser ses activités quotidiennes ?",
-      domain: "Activité physique et autonomie"
+      domain: "Activité physique et autonomie",
+      values: ["Non", "Avec aide", "Avec quelques difficultés", "Facilement"]
     },
     {
       question: "Respecte-t-il ses rendez-vous médicaux et ses traitements ?",
-      domain: "Adhérence thérapeutique"
+      domain: "Adhérence thérapeutique",
+      values: ["Jamais", "Rarement", "Généralement", "Toujours"]
     },
     {
       question: "Y a-t-il des symptômes alarmants (douleur thoracique, essoufflement important) ?",
-      domain: "Symptômes cardiovasculaires"
+      domain: "Symptômes cardiovasculaires",
+      values: ["Aucun", "Légers", "Modérés", "Sévères"]
     },
     {
       question: "Le patient a-t-il un mode de vie sain (alimentation, sommeil) ?",
-      domain: "Adhérence thérapeutique"
-    },
-    {
-      question: "Avez-vous des inquiétudes concernant sa santé cardiaque ?",
-      domain: "Bien-être et état général"
-    },
-    {
-      question: "Le patient accepte-t-il votre soutien et vos encouragements ?",
-      domain: "Activité physique et autonomie"
-    },
-    {
-      question: "Savez-vous quels signes d'alerte doivent vous alerter ?",
-      domain: "Symptômes cardiovasculaires"
+      domain: "Adhérence thérapeutique",
+      values: ["Non", "Peu", "Moyen", "Oui"]
     }
   ]
 };
 
-// Recommandations infirmières selon le niveau de risque
+// Recommandations adaptées par niveau
 const recommendations = {
   patient: {
     excellent: {
@@ -122,7 +101,7 @@ const recommendations = {
         "Continuez vos efforts ! Votre état s'améliore régulièrement.",
         "Maintenez votre routine de traitement et d'activité physique.",
         "Restez vigilant à tout changement : douleur thoracique, essoufflement ou fatigue anormale.",
-        "Prochaine évaluation recommandée dans 1-2 mois."
+        "Prochaine évaluation recommandée dans 4-6 semaines."
       ]
     },
     bon: {
@@ -133,7 +112,7 @@ const recommendations = {
         "Renforcez progressivement votre activité physique selon les conseils de votre médecin.",
         "Assurez-vous de respecter scrupuleusement vos médicaments et votre régime alimentaire.",
         "Signalez rapidement toute nouvelle gêne à votre infirmier ou médecin.",
-        "Prochaine évaluation recommandée dans 3-4 semaines."
+        "Prochaine évaluation recommandée dans 2-3 semaines."
       ]
     },
     vigilance: {
@@ -144,7 +123,6 @@ const recommendations = {
         "Consultez rapidement votre infirmier ou médecin pour une évaluation complète.",
         "Revoyez vos traitements : vérifiez que vous prenez tous vos médicaments correctement.",
         "Limitez temporairement vos activités physiques tant que votre état s'améliore.",
-        "Tenez un journal de vos symptômes (fatigue, essoufflement, douleur) pour votre médecin.",
         "Prochaine évaluation recommandée dans 1-2 semaines."
       ]
     },
@@ -152,13 +130,11 @@ const recommendations = {
       level: "🔴 Risque élevé - Intervention urgente",
       color: "#d32f2f",
       advice: [
-        "Votre état de santé nécessite une intervention rapide de votre équipe médicale.",
+        "Votre état de santé nécessite une intervention rapide.",
         "Contactez immédiatement votre médecin ou allez aux urgences si vous avez :",
         "  • Une douleur thoracique ou une pression dans la poitrine",
         "  • Un essoufflement sévère",
         "  • Une fatigue extrême ou des vertiges",
-        "  • Un gonflement important des jambes ou des pieds",
-        "Consultez votre infirmier dès que possible pour un suivi personnalisé.",
         "Ne tentez pas d'augmenter votre activité physique sans avis médical."
       ]
     }
@@ -172,7 +148,6 @@ const recommendations = {
         "L'état clinique du patient est stable et bien contrôlé.",
         "Maintenez le suivi régulier et l'éducation thérapeutique en cours.",
         "Continuez la surveillance des signes d'aggravation.",
-        "Encouragez la poursuite de l'activité physique adaptée.",
         "Réévaluation recommandée dans 4-6 semaines."
       ]
     },
@@ -184,7 +159,6 @@ const recommendations = {
         "Renforcez l'éducation thérapeutique sur les domaines faibles.",
         "Optimisez le traitement pharmacologique si nécessaire.",
         "Favorisez la participation à un programme de réadaptation cardiaque.",
-        "Impliquez la famille dans le soutien du patient.",
         "Réévaluation recommandée dans 2-3 semaines."
       ]
     },
@@ -194,11 +168,8 @@ const recommendations = {
       advice: [
         "Des signes cliniques préoccupants ont été identifiés.",
         "Intensifiez la surveillance : consultations plus fréquentes (1-2x/semaine).",
-        "Revoyez le plan thérapeutique avec le médecin (ajustements médicamenteux).",
+        "Revoyez le plan thérapeutique avec le médecin.",
         "Évaluez les barrières à l'adhérence et adaptez les conseils.",
-        "Mettez en place ou renforcez le soutien psychosocial.",
-        "Impliquez la famille dans la surveillance et le soutien.",
-        "Organisez une coordination interdisciplinaire si nécessaire.",
         "Réévaluation recommandée dans 1 semaine."
       ]
     },
@@ -207,13 +178,10 @@ const recommendations = {
       color: "#d32f2f",
       advice: [
         "L'état clinique du patient est préoccupant et nécessite une intervention urgente.",
-        "Consultez le médecin ou alertez le cardiologue immédiatement.",
+        "Consultez le médecin ou le cardiologue immédiatement.",
         "Envisagez une hospitalisation ou une consultation urgente si nécessaire.",
-        "Renforcez la surveillance clinique quotidienne ou rapprochée.",
-        "Revoyez complètement le traitement et l'adhérence thérapeutique.",
-        "Mettez en place un soutien psychosocial renforcé.",
-        "Coordonnez avec l'équipe multidisciplinaire (cardiologue, psychologue, diététicien).",
-        "Documentez tous les signes cliniques observés."
+        "Renforcez la surveillance clinique quotidienne.",
+        "Coordonnez avec l'équipe multidisciplinaire."
       ]
     }
   },
@@ -225,8 +193,7 @@ const recommendations = {
       advice: [
         "L'état de santé du patient s'améliore bien.",
         "Continuez vos efforts de soutien et d'encouragement.",
-        "Maintenez l'environnement familial stable et de soutien.",
-        "Célébrez les progrès réalisés avec le patient.",
+        "Maintenir un environnement familial stable et de soutien.",
         "Restez vigilant à tout changement d'état."
       ]
     },
@@ -234,40 +201,32 @@ const recommendations = {
       level: "🟡 Situation satisfaisante - Suivi actif",
       color: "#ff9800",
       advice: [
-        "L'état du patient est globalement bon avec une gestion adéquate.",
+        "L'état du patient est globalement bon.",
         "Encouragez une activité physique progressive et adaptée.",
         "Aidez le patient à suivre son régime alimentaire.",
-        "Soutenez-le dans la prise régulière de ses médicaments.",
-        "Maintenez une communication ouverte avec l'équipe médicale.",
-        "Apprenez à reconnaître les signes d'alerte importants."
+        "Soutenez-le dans la prise régulière de ses médicaments."
       ]
     },
     vigilance: {
       level: "🟠 Vigilance requise - Soutien renforcé",
       color: "#ff6f00",
       advice: [
-        "Il y a des signes qui demandent plus d'attention et de soutien.",
+        "Il y a des signes qui demandent plus d'attention.",
         "Augmentez votre soutien émotionnel et pratique au quotidien.",
         "Assurez-vous que le patient prend correctement ses médicaments.",
-        "Encouragez-le à maintenir une légère activité physique.",
-        "Restez en contact régulier avec l'équipe infirmière/médicale.",
-        "Aidez à la gestion du stress et des préoccupations du patient.",
-        "Documentez tout changement symptomatique pour les professionnels."
+        "Restez en contact régulier avec l'équipe infirmière."
       ]
     },
     critique: {
       level: "🔴 Risque élevé - Action urgente",
       color: "#d32f2f",
       advice: [
-        "La situation de santé du patient est préoccupante et nécessite une action rapide.",
+        "La situation de santé du patient est préoccupante.",
         "Alertez immédiatement l'infirmier ou le médecin.",
-        "Appelez les secours (15/SAMU) ou allez aux urgences si :",
+        "Appelez les secours (15/SAMU) si :",
         "  • Douleur ou pression thoracique",
-        "  • Essoufflement sévère ou au repos",
-        "  • Perte de conscience ou malaise important",
-        "  • Gonflement soudain des jambes ou du visage",
-        "Assurez-vous de la prise régulière des médicaments.",
-        "Maintenez le patient au repos si nécessaire.",
+        "  • Essoufflement sévère",
+        "  • Malaise important",
         "Restez près du patient et rassurez-le."
       ]
     }
@@ -275,7 +234,13 @@ const recommendations = {
 };
 
 // Affichage du titre
-document.getElementById("title").innerText = "Questionnaire - " + role.toUpperCase();
+const roleLabels = {
+  patient: "Patient",
+  infirmier: "Infirmier(e)",
+  famille: "Famille"
+};
+
+document.getElementById("title").innerText = `Questionnaire - ${roleLabels[role]}`;
 
 // Génération des questions
 let container = document.getElementById("questions");
@@ -283,28 +248,17 @@ let container = document.getElementById("questions");
 data[role].forEach((item, i) => {
   container.innerHTML += `
     <div class="q">
-      <label for="q${i}">${i + 1}. ${item.question}</label>
-      <small class="domain">${item.domain}</small>
-      <div class="input-group">
-        <input type="range" id="q${i}" min="0" max="3" value="0" class="slider">
-        <span id="value${i}" class="value-display">0</span>
-        <span class="scale-label">/3</span>
-      </div>
-      <div class="slider-labels">
-        <span>Non</span>
-        <span>Peu</span>
-        <span>Moyen</span>
-        <span>Oui/Beaucoup</span>
-      </div>
+      <p><strong>${i + 1}.</strong> ${item.question}</p>
+      <small style="color: #0d47a1; display: block; margin-bottom: 12px;">📋 ${item.domain}</small>
+      <select id="q${i}" style="margin-top: 8px;">
+        <option value="">-- Sélectionnez une réponse --</option>
+        <option value="0">${item.values[0]}</option>
+        <option value="1">${item.values[1]}</option>
+        <option value="2">${item.values[2]}</option>
+        <option value="3">${item.values[3]}</option>
+      </select>
     </div>
   `;
-});
-
-// Mise à jour dynamique de l'affichage des valeurs
-document.querySelectorAll('.slider').forEach((slider, index) => {
-  slider.addEventListener('input', (e) => {
-    document.getElementById(`value${index}`).textContent = e.target.value;
-  });
 });
 
 // Calcul du score et affichage des recommandations
@@ -316,6 +270,7 @@ function calculate() {
     const value = document.getElementById("q" + i).value;
     if (value === "" || value === "0") {
       allFilled = false;
+      break;
     }
     total += parseInt(value || 0);
   }
@@ -328,11 +283,11 @@ function calculate() {
   let score = Math.round((total / (data[role].length * 3)) * 100);
 
   let level;
-  if (score >= 75) {
+  if (score >= 70) {
     level = "excellent";
-  } else if (score >= 55) {
+  } else if (score >= 50) {
     level = "bon";
-  } else if (score >= 35) {
+  } else if (score >= 30) {
     level = "vigilance";
   } else {
     level = "critique";
@@ -341,9 +296,9 @@ function calculate() {
   let rec = recommendations[role][level];
 
   let resultHTML = `
-    <div class="result-card" style="border-left: 5px solid ${rec.color};">
+    <div class="result-card ${level}">
       <h3>${rec.level}</h3>
-      <p class="score">Score : <strong>${score}/100</strong></p>
+      <div class="score-display">Score : ${score}/100</div>
       <div class="advice-section">
         <h4>Recommandations :</h4>
         <ul>
@@ -360,13 +315,18 @@ function calculate() {
   `;
 
   document.getElementById("result").innerHTML = resultHTML;
+  document.getElementById("result").scrollIntoView({ behavior: "smooth" });
 }
 
-// Fonction pour réinitialiser le questionnaire
-function reset() {
-  document.querySelectorAll('.slider').forEach((slider, index) => {
-    slider.value = 0;
-    document.getElementById(`value${index}`).textContent = "0";
+// Fonction pour réinitialiser le formulaire
+function resetForm() {
+  document.querySelectorAll("select").forEach(select => {
+    select.value = "";
   });
   document.getElementById("result").innerHTML = "";
+}
+
+// Fonction pour revenir à l'accueil
+function goHome() {
+  window.location.href = "index.html";
 }
